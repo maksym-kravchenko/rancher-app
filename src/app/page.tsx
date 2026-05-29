@@ -8,11 +8,11 @@ export default function Home() {
     return (
         <main className="min-h-screen flex flex-col items-center justify-between p-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
             <div className="flex-1 flex flex-col items-center justify-center text-center">
-                <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-lightgreen-300 to-purple-400 bg-clip-text text-transparent">
                     {message}
                 </h1>
                 <p className="text-xl text-slate-400 max-w-xl">
-                    A Kubernetes portfolio project by Maksym Kravchenko —
+                    A Kubernetes portfolio project by Maksym Kravchenko
                     deployed on Rancher with GitOps-style CI/CD.
                 </p>
             </div>
