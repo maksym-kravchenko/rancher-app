@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rancher-app-config
+  namespace: rancher-app
+data:
+  WELCOME_MESSAGE: "Hello from Kubernetes on Hetzner!"
+  APP_VERSION: "0.1.0"
