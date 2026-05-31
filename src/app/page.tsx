@@ -15,7 +15,7 @@ export default function Home() {
                     A Kubernetes portfolio project by Maksym Kravchenko
                     deployed on Rancher with GitOps-style CI/CD.
 
-                    It is a simple test: bla blu bli hahahah
+                    It is a simple test
                 </p>
             </div>
 
