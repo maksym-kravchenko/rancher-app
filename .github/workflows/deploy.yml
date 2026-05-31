@@ -3,6 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches: [main]
+    tags: ['v*']
     paths-ignore:
       - 'README.md'
       - 'k8s/**'
@@ -41,8 +42,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=sha,prefix=
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=tag
+            type=sha,prefix=,priority=900
+            type=raw,value=latest,enable={{is_default_branch}},priority=100
 
       - name: Build and push image
         uses: docker/build-push-action@v6
@@ -52,7 +54,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            APP_VERSION=${{ steps.meta.outputs.version }}
+            APP_VERSION=${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -73,9 +75,15 @@ jobs:
 
       - name: Update deployment image
         run: |
-          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            TAG="${{ github.ref_name }}"
+            VERSION="${TAG#v}"   # strip leading 'v' → 0.1.2
+          else
+            VERSION=$(echo "${{ github.sha }}" | cut -c1-7)
+          fi
+          echo "Deploying version: $VERSION"
           kubectl set image deployment/rancher-app \
-            app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$SHORT_SHA \
+            app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$VERSION \
             -n rancher-app
 
       - name: Wait for rollout

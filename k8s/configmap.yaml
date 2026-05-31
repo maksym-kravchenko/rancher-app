@@ -4,4 +4,4 @@ metadata:
   name: rancher-app-config
   namespace: rancher-app
 data:
-  WELCOME_MESSAGE: "First Zero-Downtime app from MAAAAKSYM!"
+  WELCOME_MESSAGE: "First Zero-Downtime, CI/CD app from Maksym!"
