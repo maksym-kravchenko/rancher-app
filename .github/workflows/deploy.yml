@@ -73,8 +73,9 @@ jobs:
 
       - name: Update deployment image
         run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
           kubectl set image deployment/rancher-app \
-            app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-and-push.outputs.image-tag }} \
+            app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$SHORT_SHA \
             -n rancher-app
 
       - name: Wait for rollout
