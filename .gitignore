@@ -42,4 +42,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-k8s/
+k8s/secret.yaml
