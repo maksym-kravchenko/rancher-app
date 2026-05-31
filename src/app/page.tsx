@@ -14,6 +14,8 @@ export default function Home() {
                 <p className="text-xl text-slate-400 max-w-xl">
                     A Kubernetes portfolio project by Maksym Kravchenko
                     deployed on Rancher with GitOps-style CI/CD.
+
+                    It is a simple test: bla blu bli hahahah
                 </p>
             </div>
 
