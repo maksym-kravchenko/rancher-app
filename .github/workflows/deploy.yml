@@ -20,8 +20,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    outputs:
-      image-tag: ${{ steps.meta.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,14 +34,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Compute version
+        id: version
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            VERSION=$(echo "${{ github.sha }}" | cut -c1-7)
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Computed version: $VERSION"
+
       - name: Generate image metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=tag
-            type=sha,prefix=,priority=900
+            type=sha,prefix=,priority=1000
+            type=ref,event=tag,priority=900
             type=raw,value=latest,enable={{is_default_branch}},priority=100
 
       - name: Build and push image
@@ -54,13 +63,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            APP_VERSION=${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
+            APP_VERSION=${{ steps.version.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
     steps:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
@@ -75,13 +85,7 @@ jobs:
 
       - name: Update deployment image
         run: |
-          if [[ "${{ github.ref_type }}" == "tag" ]]; then
-            TAG="${{ github.ref_name }}"
-            VERSION="${TAG#v}"   # strip leading 'v' → 0.1.2
-          else
-            VERSION=$(echo "${{ github.sha }}" | cut -c1-7)
-          fi
-          echo "Deploying version: $VERSION"
+          VERSION="${GITHUB_REF_NAME#v}"
           kubectl set image deployment/rancher-app \
             app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$VERSION \
             -n rancher-app
