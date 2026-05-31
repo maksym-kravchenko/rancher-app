@@ -52,7 +52,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=sha,prefix=,priority=1000
-            type=ref,event=tag,priority=900
+            type=match,pattern=v(.*),group=1,priority=900
             type=raw,value=latest,enable={{is_default_branch}},priority=100
 
       - name: Build and push image
