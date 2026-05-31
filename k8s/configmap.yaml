@@ -5,4 +5,3 @@ metadata:
   namespace: rancher-app
 data:
   WELCOME_MESSAGE: "First Zero-Downtime app from MAAAAKSYM!"
-  APP_VERSION: "0.1.2"
