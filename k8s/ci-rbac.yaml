@@ -12,7 +12,7 @@ metadata:
 rules:
   - apiGroups: ["apps"]
     resources: ["deployments"]
-    verbs: ["get", "patch", "update"]
+    verbs: ["get", "list", "watch", "patch", "update"]
   - apiGroups: ["apps"]
     resources: ["deployments/status"]
     verbs: ["get"]
