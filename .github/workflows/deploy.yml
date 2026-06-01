@@ -50,6 +50,10 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.image_tag }} \
             --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
 
+      - name: Verify semver tag exists
+        run: |
+          docker manifest inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }} > /dev/null
+
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
 
@@ -67,7 +71,7 @@ jobs:
       - name: Update deployment image
         run: |
           kubectl set image deployment/rancher-app \
-            app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.image_tag }} \
+            app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }} \
             -n rancher-app
 
       - name: Annotate deployment with version
