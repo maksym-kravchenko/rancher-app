@@ -16,6 +16,9 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Compute version + image tag
         id: version
@@ -25,15 +28,27 @@ jobs:
           else
             VERSION="${GITHUB_REF_NAME#v}"
           fi
-          # Tag image with short SHA of the tagged commit
           SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "image_tag=$SHORT_SHA" >> $GITHUB_OUTPUT
           echo "Deploying version $VERSION from image $SHORT_SHA"
 
-      - name: Verify image exists
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify SHA image exists
         run: |
           docker manifest inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.image_tag }} > /dev/null
+
+      - name: Tag image with semver
+        run: |
+          docker buildx imagetools create \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.image_tag }} \
+            --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
