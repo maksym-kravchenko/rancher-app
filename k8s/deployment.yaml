@@ -27,6 +27,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: APP_VERSION_OVERRIDE
+              value: ""
           envFrom:
             - configMapRef:
                 name: rancher-app-config

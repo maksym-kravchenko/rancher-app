@@ -1,7 +1,9 @@
 export const dynamic = "force-dynamic";
 
 export default function Home() {
-    const version = process.env.APP_VERSION ?? "dev";
+    const bakedVersion = process.env.APP_VERSION ?? "dev";
+    const overrideVersion = process.env.APP_VERSION_OVERRIDE;
+    const version = overrideVersion || bakedVersion;
     const podName = process.env.POD_NAME ?? "local";
     const message = process.env.WELCOME_MESSAGE ?? "Hello from local dev";
 

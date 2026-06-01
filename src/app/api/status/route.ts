@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
 
     const body = {
         version: process.env.APP_VERSION ?? "dev",
+        build: process.env.APP_VERSION,
         pod: process.env.POD_NAME ?? "local",
         uptime_seconds: Math.floor((Date.now() - startTime) / 1000),
         message: process.env.WELCOME_MESSAGE ?? "Hello from local dev",

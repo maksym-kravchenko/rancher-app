@@ -59,6 +59,11 @@ jobs:
           echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
 
+      - name: Set version override
+        run: |
+          kubectl set env deployment/rancher-app -n rancher-app \
+            APP_VERSION_OVERRIDE=${{ steps.version.outputs.version }}
+
       - name: Update deployment image
         run: |
           kubectl set image deployment/rancher-app \
