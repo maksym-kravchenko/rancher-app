@@ -15,3 +15,8 @@ spec:
       path: /api/metrics
       interval: 30s
       scrapeTimeout: 10s
+      authorization:
+        type: Bearer
+        credentials:
+          name: rancher-app-secret
+          key: METRICS_TOKEN

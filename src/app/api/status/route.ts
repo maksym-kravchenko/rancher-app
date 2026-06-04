@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { httpRequestsTotal, httpRequestDuration } from "@/lib/metrics";
+import { safeEqual } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ export async function GET(req: NextRequest) {
     const apiKey = req.headers.get("x-api-key");
     const expected = process.env.API_KEY;
 
-    if (!expected || apiKey !== expected) {
+    if (!expected || !apiKey || !safeEqual(apiKey, expected)) {
         httpRequestsTotal.inc({ method: "GET", route: "/api/status", status: "401" });
         end({ status: "401" });
         return Response.json({ error: "unauthorized" }, { status: 401 });

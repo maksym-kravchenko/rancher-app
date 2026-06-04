@@ -79,7 +79,7 @@ The Next.js app demonstrates all required Kubernetes concepts:
 | Feature | Implementation |
 |---------|----------------|
 | **ConfigMap** | `WELCOME_MESSAGE` env var injected into pods, displayed as page heading |
-| **Secret** | `API_KEY` protects the `/api/status` endpoint |
+| **Secret** | `API_KEY` protects `/api/status`; `METRICS_TOKEN` protects `/api/metrics` (Prometheus scrapes it via the ServiceMonitor's bearer auth) |
 | **Resource limits** | `requests: 50m / 128Mi`, `limits: 300m / 256Mi` |
 | **Liveness probe** | `GET /api/health` every 10s, restart on 3 consecutive failures |
 | **Readiness probe** | `GET /api/health` every 5s, removes pod from load balancer on failure |
@@ -95,7 +95,7 @@ The Next.js app demonstrates all required Kubernetes concepts:
 | `/` | GET | none | Landing page (ConfigMap message, version, pod name) |
 | `/api/health` | GET | none | Health check for K8s probes |
 | `/api/status` | GET | API key | JSON with version, pod, uptime |
-| `/api/metrics` | GET | none | Prometheus-format metrics |
+| `/api/metrics` | GET | Bearer token | Prometheus-format metrics (open locally when `METRICS_TOKEN` is unset) |
 
 ## CI/CD pipeline
 
