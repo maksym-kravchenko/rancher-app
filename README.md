@@ -1,6 +1,6 @@
 # rancher-app
 
-> Kubernetes portfolio project: a Next.js application deployed on K3s with Rancher, automated CI/CD via GitHub Actions, and full observability through Prometheus and Grafana.
+> Kubernetes project: a Next.js application deployed on K3s with Rancher, automated CI/CD via GitHub Actions, and full observability through Prometheus and Grafana.
 
 [![Live App](https://img.shields.io/badge/live-app.kravix.ch-success)](https://app.kravix.ch)
 [![Rancher](https://img.shields.io/badge/rancher-rancher.kravix.ch-blue)](https://rancher.kravix.ch)
