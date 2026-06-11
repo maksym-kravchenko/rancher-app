@@ -24,3 +24,110 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* --- landing page: subtle grid backdrop --- */
+.bg-grid {
+  background-image:
+    linear-gradient(rgb(148 163 184 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 163 184 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* --- landing page: section entrance --- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s ease-out both;
+}
+
+/* --- CI/CD pipeline animation (12s cycle, dot crosses in the first 90%) --- */
+@keyframes pipeline-dot {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  90% {
+    left: 100%;
+    opacity: 1;
+  }
+  96%,
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.pipeline-dot {
+  animation: pipeline-dot 12s linear infinite;
+}
+
+@keyframes pipeline-fill {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  90% {
+    width: 100%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+.pipeline-fill {
+  animation: pipeline-fill 12s linear infinite;
+}
+
+/* node lights up while the dot passes, then dims again */
+.stage-node {
+  --pulse: 56 189 248; /* sky-400 */
+  border-color: rgb(51 65 85); /* slate-700 */
+  background-color: rgb(2 6 23); /* slate-950, masks the track line */
+  color: rgb(100 116 139); /* slate-500 */
+  animation: stage-pulse 12s ease-in-out infinite;
+}
+
+.stage-node-live {
+  --pulse: 52 211 153; /* emerald-400 */
+}
+
+@keyframes stage-pulse {
+  0%,
+  100% {
+    border-color: rgb(51 65 85);
+    color: rgb(100 116 139);
+    box-shadow: 0 0 0 0 transparent;
+    transform: scale(1);
+  }
+  3% {
+    border-color: rgb(var(--pulse));
+    color: rgb(var(--pulse));
+    box-shadow: 0 0 24px 0 rgb(var(--pulse) / 0.35);
+    transform: scale(1.1);
+  }
+  18% {
+    border-color: rgb(var(--pulse));
+    color: rgb(var(--pulse));
+    box-shadow: 0 0 14px 0 rgb(var(--pulse) / 0.18);
+    transform: scale(1);
+  }
+  40% {
+    border-color: rgb(51 65 85);
+    color: rgb(100 116 139);
+    box-shadow: 0 0 0 0 transparent;
+  }
+}

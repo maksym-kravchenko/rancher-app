@@ -1,4 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: rancher-app #matches the repo name
+  name: rancher-app
