@@ -101,7 +101,7 @@ export default function Home() {
                     </h1>
                     <p className="mt-5 max-w-xl text-base text-slate-400 sm:text-lg">
                         A Next.js app on a selfhosted k8s cluster, built, shipped
-                        and observed end to end.
+                        and observed end to end. TZESTTT
                     </p>
 
                     <div className="mt-8 flex flex-wrap items-center justify-center gap-3 font-mono text-xs">
