@@ -18,7 +18,7 @@ export default function Home() {
                     deployed on Rancher with GitOps-style CI/CD.
                     <br/>
                     <br/>
-                    Final Test of new pipeline
+                    Final Test of new pipeline 1
                 </p>
             </div>
 
