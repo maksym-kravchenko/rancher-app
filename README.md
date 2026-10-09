@@ -2,18 +2,14 @@
 
 > Kubernetes project: a Next.js application deployed on K3s with Rancher, automated CI/CD via GitHub Actions, and full observability through Prometheus and Grafana.
 
-[![Live App](https://img.shields.io/badge/live-app.kravix.ch-success)](https://app.kravix.ch)
-[![Rancher](https://img.shields.io/badge/rancher-rancher.kravix.ch-blue)](https://rancher.kravix.ch)
-[![Grafana](https://img.shields.io/badge/grafana-grafana.kravix.ch-orange)](https://grafana.kravix.ch)
-
 ## Live endpoints
 
 | Service    | URL                          | Purpose                              |
 |------------|------------------------------|--------------------------------------|
-| App        | https://app.kravix.ch        | Next.js demo application             |
-| Rancher    | https://rancher.kravix.ch    | Kubernetes management UI             |
-| Grafana    | https://grafana.kravix.ch    | Metrics dashboards (login required)  |
-| Prometheus | https://prometheus.kravix.ch | Metrics queries (basic auth)         |
+| App        | https://app.yourdomain.ch        | Next.js demo application             |
+| Rancher    | https://rancher.yourdomain.ch    | Kubernetes management UI             |
+| Grafana    | https://grafana.yourdomain.ch    | Metrics dashboards (login required)  |
+| Prometheus | https://prometheus.yourdomain.ch | Metrics queries (basic auth)         |
 
 ## Architecture
 
@@ -175,7 +171,7 @@ kube_pod_container_status_restarts_total{namespace="rancher-app"}
 │   ├── secret.example.yaml    # Template (real secret.yaml is gitignored)
 │   ├── deployment.yaml        # 2 replicas + probes + limits
 │   ├── service.yaml           # ClusterIP service
-│   ├── ingress.yaml           # TLS + nginx routing for app.kravix.ch
+│   ├── ingress.yaml           # TLS + nginx routing for app.yourdomain.ch
 │   ├── servicemonitor.yaml    # Tells Prometheus to scrape /api/metrics
 │   ├── cluster-issuer.yaml    # Let's Encrypt prod issuer
 │   ├── ci-rbac.yaml           # ServiceAccount + Role for GitHub Actions
